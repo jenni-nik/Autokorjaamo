@@ -1,0 +1,13 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 20px;
+    background-color: #52a8d6;
+    background-image: url('https://api.mtvuutiset.fi/graphql/caas/v1/media/share/6253140/a3f2aa0e93ec6e2dc522f6698a3e7402/halpa-auto-fiat-panda.jpg');
+}
+
+.app-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
