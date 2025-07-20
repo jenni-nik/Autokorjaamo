@@ -337,8 +337,6 @@ label {
   color: #f3f4f6;
 }
 
-
-
 .form-wrapper.dark .theme-toggle {
   background: rgba(255, 255, 255, 0.1);
   color: #ec4899;
@@ -351,7 +349,7 @@ label {
 }
 
 .form-wrapper.dark .km-suffix {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #f3f4f6;
 }
@@ -391,14 +389,17 @@ label {
   background-color:  #4b0c2bcf
 }
 
+.form-wrapper.dark .country-select:hover {
+  color: #f3f4f6;
+  background-color:  #4b0c2bcf
+}
 
 .form-wrapper.dark input,
 .form-wrapper.dark textarea {
   background: rgba(241, 241, 241, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #0c0c0c;
+  color: #dfdfdf;
 }
-
 
 .form-wrapper.dark .garage-select {
   background-color: #323a46;
@@ -406,6 +407,24 @@ label {
   color: #dfdfdf;
 }
 
+/*
+.form-wrapper.dark .garage-select {
+  background-color: #323a46;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #dfdfdf;
+}*/
+/*
+.form-wrapper.dark .garage-select {
+  background-color: #4b0c2bcf;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #dfdfdf;
+}
+
+.form-wrapper.dark .garage-select:hover {
+  background-color: rgba(236, 72, 153, 0.3);
+  color: #fff;
+}
+*/
 /*.form-wrapper.dark .garage-select {
   background-color: #2a2a2a;
   color: #e2e2e2;
@@ -432,6 +451,7 @@ label {
 .form-wrapper.dark .km-suffix {
   background: rgba(236, 72, 153, 0.2);
   color: #fff;
+  margin-top: 0px;
 }
 
 
@@ -489,3 +509,7 @@ label {
   height: 100%;
   padding-right: 6px;
 }*/
+
+input[type="checkbox"]:checked {
+  accent-color: #ec4899;
+}

@@ -23,7 +23,6 @@ const RegistrationForm = () => {
   });
 
 
-
   const [errors, setErrors] = useState({});
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 4));
@@ -57,48 +56,73 @@ const RegistrationForm = () => {
     return newErrors;
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const validationErrors = validate();
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    return;
-  }
-  setSubmitted(true);
-  playSound();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setSubmitted(true);
+    playSound();
 
-  const serviceID = 'service_rzosfqv';
-  const templateID = 'template_x346h1n';
-  const publicKey = 'd3jhxJ4JZxxiYZGWO';
+    const serviceID = 'service_rzosfqv';
+    const templateID = 'template_x346h1n';
+    const publicKey = 'd3jhxJ4JZxxiYZGWO';
 
-  // Преобразуем mileage и service перед отправкой
-  const transformedData = {
-    ...formData,
-    mileage: String(Number(formData.mileage) * 1000), // Преобразуем в 4000, если введено 4
-    service: formData.service.join(", "), // Превращаем массив в строку
-    date: new Date().toLocaleString(),
-    message: formData.message || "Ми з вами зв'яжемося найближчим часом!",
+    // Преобразуем mileage и service перед отправкой
+    const transformedData = {
+      ...formData,
+      mileage: String(Number(formData.mileage) * 1000), // Преобразуем в 4000, если введено 4
+      service: formData.service.join(", "), // Превращаем массив в строку
+      date: new Date().toLocaleString(),
+      message: formData.message || "Ми з вами зв'яжемося найближчим часом!",
+    };
+
+    emailjs.send(serviceID, templateID, transformedData, publicKey)
+      .then(() => setSubmitted(true))
+      .catch((err) => console.error('Email failed:', err));
   };
 
-  emailjs.send(serviceID, templateID, transformedData, publicKey)
-    .then(() => setSubmitted(true))
-    .catch((err) => console.error('Email failed:', err));
-};
-
-const playSound = () => {
-  const audio = new Audio("car-sound.mp3");  
-  audio.play();
-};
+  const playSound = () => {
+    const audio = new Audio("car-sound.mp3");
+    audio.play();
+  };
 
   const getDialCode = (countryCode) => {
     const dialMap = {
-      at: "+43", be: "+32", bg: "+359", hr: "+385", cy: "+357",
-      cz: "+420", dk: "+45", ee: "+372", fi: "+358", fr: "+33",
-      de: "+49", gr: "+30", hu: "+36", ie: "+353", it: "+39",
-      lv: "+371", lt: "+370", lu: "+352", mt: "+356", nl: "+31",
-      no: "+47", pl: "+48", pt: "+351", ro: "+40", sk: "+421",
-      si: "+386", es: "+34", se: "+46", ch: "+41", ua: "+380",
-      gb: "+44", us: "+1"
+      at: "+43",
+      be: "+32",
+      bg: "+359",
+      hr: "+385",
+      cy: "+357",
+      cz: "+420",
+      dk: "+45",
+      ee: "+372",
+      fi: "+358",
+      fr: "+33",
+      de: "+49",
+      gr: "+30",
+      hu: "+36",
+      ie: "+353",
+      it: "+39",
+      lv: "+371",
+      lt: "+370",
+      lu: "+352",
+      mt: "+356",
+      nl: "+31",
+      no: "+47",
+      pl: "+48",
+      pt: "+351",
+      ro: "+40",
+      sk: "+421",
+      si: "+386",
+      es: "+34",
+      se: "+46",
+      ch: "+41",
+      ua: "+380",
+      gb: "+44",
+      us: "+1"
     };
     return dialMap[countryCode] || "";
   };
@@ -144,7 +168,6 @@ const playSound = () => {
                   <div className="plate-wrapper">
                     <div className="plate-combined">
                       <select name="plateCountry" onChange={handleChange} className="garage-select" defaultValue="FIN">
-                        {/* Country options */}
                         <option value="FIN">FIN</option>
                         <option value="A">A</option>
                         <option value="B">B</option>
@@ -181,7 +204,11 @@ const playSound = () => {
                 <div className="km-wrapper">
                   <label htmlFor="mileage">Mileage</label>
                   <div className="km-group">
-                    <input name="mileage" placeholder="0" onChange={handleChange} maxLength={4} type="number" min="0" step="1" className="km-input" />
+                    <input name="mileage" placeholder="0" onChange={handleChange} maxLength={4} type="number" min="0" step="1" className="km-input" onKeyDown={(e) => {
+                      if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                        e.preventDefault();
+                      }
+                    }} />
                     <div className="km-suffix">000 km</div>
                   </div>
                 </div>
@@ -240,7 +267,6 @@ const playSound = () => {
                     <img src={`https://flagcdn.com/w40/${formData.country}.png`} alt={formData.country} className="flag-icon" />
                     <span className="dial-code">{getDialCode(formData.country)}</span>
                     <select name="country" value={formData.country} onChange={handleChange} className="country-select">
-                      {/* Country options... */}
                       <option value="at">+43</option>
                       <option value="be">+32</option>
                       <option value="bg">+359</option>
@@ -273,11 +299,33 @@ const playSound = () => {
                       <option value="ua">+380</option>
                       <option value="gb">+44</option>
                       <option value="us">+1</option>
-                      {/* Додай інші, якщо треба */}
                     </select>
                   </div>
 
-                  <input name="phone" placeholder="Phone number" onChange={handleChange} className="phone-input" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    onChange={handleChange}
+                    onKeyDown={(e) => {
+                      // Разрешаем только цифры, backspace, стрелки, delete и tab
+                      const allowedKeys = [
+                        "Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab"
+                      ];
+                      if (
+                        !/[0-9]/.test(e.key) &&
+                        !allowedKeys.includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                    className="phone-input"
+                    maxLength={15}
+                    inputMode="numeric"
+                    pattern="[0-9]{7,15}"
+                  />
+
+
                   {errors.phone && <div className="error">{errors.phone}</div>}
                 </div>
 
